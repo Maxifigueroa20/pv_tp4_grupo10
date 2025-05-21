@@ -15,8 +15,36 @@ const ProductForm = () => {
     setForm({ ...form, [nombreDelCampo]: nuevoValor });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const descripcion = form.descripcion;
+    const precioUnitario = parseFloat(form.precioUnitario);
+    const descuento = parseFloat(form.descuento);
+    const stock = parseInt(form.stock);
+
+    const precioConDescuento = precioUnitario * (1 - descuento / 100);
+
+    const producto = {
+      descripcion,
+      precioUnitario,
+      descuento,
+      precioConDescuento,
+      stock,
+    };
+
+    console.log("Producto listo:", producto);
+
+    setForm({
+      descripcion: "",
+      precioUnitario: "",
+      descuento: "",
+      stock: "",
+    });
+  };
+
   return (
-    <form className="formulario">
+    <form onSubmit={handleSubmit} className="formulario">
       <div className="campo">
         <label className="etiqueta">Descripción</label>
         <input
@@ -67,6 +95,10 @@ const ProductForm = () => {
           required
         />
       </div>
+
+      <button type="submit" className="boton">
+        Agregar Producto
+      </button>
     </form>
   );
 };

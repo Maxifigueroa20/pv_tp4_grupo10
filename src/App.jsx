@@ -8,6 +8,11 @@ function App() {
   const [busqueda, setBusqueda] = useState("");
   const [productoEditando, setProductoEditando] = useState(null);
 
+  // Se ejecuta cada vez que cambia la lista de productos
+  useEffect(() => {
+    console.log("Productos actualizados:", productos);
+  }, [productos]);
+
   const agregarProducto = useCallback((producto) => {
     setProductos((prev) => [
       ...prev,
@@ -22,6 +27,10 @@ function App() {
       )
     );
     setProductoEditando(null);
+  }, []);
+
+  const eliminarProducto = useCallback((id) => {
+    setProductos((prev) => prev.filter((p) => p.id !== id));
   }, []);
 
   return (

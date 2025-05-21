@@ -8,6 +8,22 @@ function App() {
   const [busqueda, setBusqueda] = useState("");
   const [productoEditando, setProductoEditando] = useState(null);
 
+  const agregarProducto = useCallback((producto) => {
+    setProductos((prev) => [
+      ...prev,
+      { ...producto, id: Date.now().toString() },
+    ]);
+  }, []);
+
+  const editarProducto = useCallback((productoActualizado) => {
+    setProductos((prev) =>
+      prev.map((p) =>
+        p.id === productoActualizado.id ? productoActualizado : p
+      )
+    );
+    setProductoEditando(null);
+  }, []);
+
   return (
     <>
       

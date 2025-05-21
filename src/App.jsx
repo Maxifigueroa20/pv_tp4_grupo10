@@ -13,6 +13,15 @@ function App() {
     console.log("Productos actualizados:", productos);
   }, [productos]);
 
+  // Memoriza la lista de productos filtrados segun la busqueda por descripcion o ID.
+  const productosFiltrados = useMemo(() => {
+    return productos.filter(
+      (p) =>
+        p.descripcion.toLowerCase().includes(busqueda.toLowerCase()) ||
+        p.id.toLowerCase().includes(busqueda.toLowerCase())
+    );
+  }, [productos, busqueda]);
+
   const agregarProducto = useCallback((producto) => {
     setProductos((prev) => [
       ...prev,

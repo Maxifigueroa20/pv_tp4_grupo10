@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const ProductForm = () => {
+const ProductForm = ({ agregarProducto, editarProducto, productoEditando }) => {
   const [form, setForm] = useState({
     descripcion: "",
     precioUnitario: "",
     descuento: "",
     stock: "",
   });
+
+  useEffect(() => {
+    if (productoEditando) {
+      setForm(productoEditando);
+    } else {
+      setForm({
+        descripcion: "",
+        precioUnitario: "",
+        descuento: "",
+        stock: "",
+      });
+    }
+  }, [productoEditando]);
 
   const handleChange = (e) => {
     const nombreDelCampo = e.target.name;
@@ -31,7 +44,14 @@ const ProductForm = () => {
       descuento,
       precioConDescuento,
       stock,
+      id: form.id,
     };
+
+    if (productoEditando) {
+      editarProducto(producto);
+    } else {
+      agregarProducto(producto);
+    }
 
     console.log("Producto listo:", producto);
 
@@ -97,7 +117,7 @@ const ProductForm = () => {
       </div>
 
       <button type="submit" className="boton">
-        Agregar Producto
+        {productoEditando ? "Guardar Cambios" : "Agregar Producto"}
       </button>
     </form>
   );
